@@ -8,7 +8,14 @@ repositories {
 }
 
 dependencies {
+    testCompile("org.springframework.boot:spring-boot-starter-test")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '1.5.10.RELEASE'
-
 }
+
+bootRun.environment([
+ "WELCOME_MESSAGE": "hello",
+])
+
+test.environment([
+    "WELCOME_MESSAGE": "Hello from test",
+])
