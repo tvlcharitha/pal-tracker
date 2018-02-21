@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
     public class WelcomeController {
 
         String message;
-
+        //paramter injection
         public WelcomeController(@Value("${welcome.message}") String message) {
             this.message = message;
         }
