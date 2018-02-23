@@ -19,15 +19,14 @@ public class TimeEntryController {
      this.timeEntryRepository=timeEntryRepository;
     }
 
-    @RequestMapping(value="/time-entries",method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity create(@RequestParam TimeEntry timeEntry) {
+    @RequestMapping(value="/time-entries",method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody TimeEntry timeEntry) {
         ResponseEntity responseEntity = new ResponseEntity<>(timeEntryRepository.create(timeEntry),HttpStatus.CREATED);
         return responseEntity;
     }
 
-    @ResponseBody
-    public ResponseEntity<TimeEntry> read(long l) {
+    @RequestMapping(value="/time-entries/{id}",method = RequestMethod.GET)
+    public ResponseEntity<TimeEntry> read(@PathVariable("id") long l) {
         ResponseEntity responseEntity;
         if(timeEntryRepository.find(l)==null)
             responseEntity = new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -36,13 +35,13 @@ public class TimeEntryController {
         return responseEntity;
     }
 
-    @ResponseBody
+    @RequestMapping(value="/time-entries",method = RequestMethod.GET)
     public ResponseEntity<List<TimeEntry>> list() {
         return new ResponseEntity <List<TimeEntry>> (timeEntryRepository.list(),HttpStatus.OK);
     }
 
-    @ResponseBody
-    public ResponseEntity update(long l, TimeEntry expected) {
+    @RequestMapping(value="/time-entries/{id}",method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable("id") long l,@RequestBody TimeEntry expected) {
         ResponseEntity responseEntity;
         if(timeEntryRepository.update(l,expected)==null )
             responseEntity = new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -51,13 +50,10 @@ public class TimeEntryController {
         return responseEntity;
     }
 
-    @ResponseBody
-    public ResponseEntity<TimeEntry> delete(long l) {
+    @RequestMapping(value="/time-entries/{id}",method = RequestMethod.DELETE)
+    public ResponseEntity<TimeEntry> delete(@PathVariable("id") long l) {
         ResponseEntity responseEntity;
-        if(timeEntryRepository.delete(l)==null)
-            responseEntity = new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
-        else
-            responseEntity = new ResponseEntity<>(timeEntryRepository.delete(l),HttpStatus.OK);
+        responseEntity = new ResponseEntity<>(timeEntryRepository.delete(l),HttpStatus.NO_CONTENT);
         return responseEntity;
 
     }
